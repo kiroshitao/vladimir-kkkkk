@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111111">
+  <meta name="description" content="Курс Владимира Карпухина: научись собирать ИИ-автоматизации для бизнеса — от задачи и архитектуры до проверок, запуска и поддержки.">
+  <title>ИИ-автоматизации для бизнеса — курс Владимира Карпухина</title>
+  <link rel="icon" href="volodya.ico" sizes="any">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#111111;--ink:#f3f2ee;--ink-2:#cfcdc6;--ink-3:#9d9b94;
+      --line:rgba(255,255,255,.16);--paper:#1b1b1b;--paper-line:rgba(255,255,255,.08);
+      --yellow:#FFD23F;--coral:#FF7A59;--purple:#9C8CFF;--green:#3DD6A0;
+      --f-display:'Dela Gothic One','Arial Black',Impact,sans-serif;
+      --f-body:'Onest',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+      --ease:cubic-bezier(.22,1,.36,1);--spring:cubic-bezier(.34,1.56,.64,1);
+      --shadow:0 1px 2px rgba(0,0,0,.5),0 18px 40px -22px rgba(0,0,0,.9);
+    }
+    *,*::before,*::after{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:78px;-webkit-text-size-adjust:100%}
+    body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.65 var(--f-body);-webkit-font-smoothing:antialiased}
+    body.menu-open{overflow:hidden}
+    h1,h2{margin:0;font-family:var(--f-display);font-weight:400;letter-spacing:-.01em;line-height:1.05;text-wrap:balance}
+    h3,p{margin:0}
+    h3{font-weight:700;letter-spacing:-.02em}
+    a{color:inherit;text-decoration:none}
+    button{font:inherit;color:inherit}
+    img,svg{max-width:100%}
+    ::selection{background:var(--yellow);color:#121212}
+    a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:10px}
+    .wrap{width:min(1200px,calc(100% - 96px));margin-inline:auto}
+    .skip{position:absolute;z-index:100;left:16px;top:-64px;padding:11px 18px;border-radius:99px;background:var(--ink);color:var(--bg)}
+    .skip:focus{top:14px}
+
+    .eyebrow{display:inline-flex;align-items:center;gap:10px;margin-bottom:18px;color:var(--ink-3);font:700 12px/1.4 var(--f-body);letter-spacing:.13em;text-transform:uppercase}
+    .eyebrow::before{width:18px;height:3px;border-radius:2px;background:var(--yellow);content:""}
+
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:56px;padding:0 28px;border:2px solid transparent;border-radius:99px;background:var(--ink);color:var(--bg);font:600 1.02rem/1.1 var(--f-body);white-space:nowrap;cursor:pointer;transition:transform .35s var(--spring),background-color .25s,color .25s}
+    .btn:hover{transform:translateY(-2px)}
+    .btn:active{transform:translateY(0) scale(.98)}
+    .btn svg{width:17px;height:17px;transition:transform .35s var(--spring)}
+    .btn:hover svg{transform:translateX(4px)}
+    .btn-quiet{border-color:var(--ink);background:transparent;color:var(--ink)}
+    .btn-quiet:hover{background:var(--ink);color:var(--bg)}
+
+    .site-header{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--bg) 78%,transparent);-webkit-backdrop-filter:blur(16px) saturate(1.3);backdrop-filter:blur(16px) saturate(1.3);border-bottom:1px solid var(--paper-line)}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:28px;min-height:66px}
+    .brand{display:inline-flex;align-items:center;gap:10px;font:700 1rem/1 var(--f-body);letter-spacing:-.02em}
+    .brand-icon{width:24px;height:24px;flex:none;border-radius:6px}
+    .nav-links{display:flex;align-items:center;gap:4px}
+    .nav-links>a{padding:8px 14px;border-radius:99px;font-weight:500;font-size:.95rem;transition:background-color .2s}
+    .nav-links>a:hover{background:var(--line)}
+    .nav-links .btn{min-height:44px;padding:0 18px;font-size:.94rem}
+    .menu-toggle{display:none;width:44px;height:44px;align-items:center;justify-content:center;border:2px solid var(--ink);border-radius:50%;background:none;color:var(--ink)}
+    .menu-toggle svg{width:20px;height:20px}
+
+    .hero{padding-block:clamp(32px,5vw,68px) clamp(48px,7vw,96px);overflow:hidden}
+    .hero-grid{display:block}
+    #hero-title{max-width:16ch;font-size:clamp(2.6rem,8.6vw,7rem);line-height:.94;letter-spacing:-.02em}
+    #hero-title em{font-style:normal;color:var(--coral)}
+    .hero-lead{max-width:52ch;margin-top:clamp(18px,2.4vw,28px);color:var(--ink-2);font-size:clamp(1.05rem,1.4vw,1.22rem);line-height:1.55}
+    .hero-lead strong{color:var(--ink);font-weight:700}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(22px,3vw,32px)}
+    .hero-note{max-width:52ch;margin-top:20px;color:var(--ink-3);font-size:.84rem;line-height:1.55}
+
+    .section{padding-block:clamp(52px,7vw,96px);border-top:2px solid var(--line)}
+    .section-title{max-width:18ch;font-size:clamp(1.9rem,4.4vw,3.4rem);line-height:1.06}
+    .section-title .accent{display:block;margin-top:10px;color:var(--coral)}
+    .section-lead{max-width:60ch;margin-top:18px;color:var(--ink-2);font-size:1.05rem}
+
+    .project-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,72px);align-items:start}
+    .project-repo{max-width:46ch;margin-top:20px;color:var(--ink-2);font-size:1.05rem;line-height:1.6}
+    .usecases-title{margin-bottom:16px;color:var(--ink-3);font:700 12px/1.4 var(--f-body);letter-spacing:.13em;text-transform:uppercase}
+    .usecases{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .usecase{display:flex;align-items:center;gap:12px;min-height:76px;padding:16px 20px;border-radius:22px;background:var(--paper);font-weight:600;font-size:.98rem;line-height:1.3;transition:transform .35s var(--spring)}
+    .usecase::before{width:11px;height:11px;flex:none;border-radius:50%;background:var(--c,var(--purple));content:""}
+    .usecase:nth-child(1){--c:var(--yellow)}.usecase:nth-child(2){--c:var(--coral)}.usecase:nth-child(3){--c:var(--purple)}.usecase:nth-child(4){--c:var(--green)}
+    .usecase:hover{transform:translateY(-3px)}
+    .offer{margin-top:16px;padding:22px 24px;border-radius:24px;background:var(--coral);color:#121212;transform:rotate(-1.2deg)}
+    .offer span{display:block;font-weight:600;font-size:.95rem}
+    .offer strong{display:block;margin-top:6px;font-family:var(--f-display);font-weight:400;font-size:clamp(1.8rem,3vw,2.6rem);letter-spacing:-.02em;line-height:1}
+    .offer small{display:block;margin-top:10px;font-size:.78rem;line-height:1.45;opacity:.82}
+
+    .auto-intro{max-width:60ch;margin-top:18px;color:var(--ink-2);font-size:1.05rem;line-height:1.6}
+    .auto-intro strong{color:var(--ink);font-weight:700}
+    .auto-grid{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+    .auto-item{display:inline-flex;align-items:center;min-height:48px;padding:10px 20px;border:2px solid var(--ink);border-radius:99px;background:transparent;font-weight:600;font-size:.98rem;transition:background-color .25s,color .25s,transform .35s var(--spring)}
+    .auto-item:hover{background:var(--ink);color:var(--bg);transform:translateY(-2px)}
+    .auto-more{margin-top:20px;color:var(--ink-3);font-family:var(--f-display);font-weight:400;font-size:clamp(1.15rem,2vw,1.5rem)}
+    .arch{margin-top:32px;border-top:2px solid var(--line)}
+    .arch summary{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 0;font-weight:700;font-size:1.12rem;list-style:none;cursor:pointer}
+    .arch summary::-webkit-details-marker{display:none}
+    .arch summary::after{display:grid;place-items:center;width:32px;height:32px;flex:none;border-radius:50%;background:var(--ink);color:var(--bg);font-size:22px;font-weight:400;line-height:1;content:"+";transition:transform .4s var(--spring)}
+    .arch[open] summary::after{content:"−";transform:rotate(180deg)}
+    .arch-body{display:flex;flex-wrap:wrap;gap:12px;padding-bottom:24px}
+    .arch-body a{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:10px 20px;border:2px solid var(--ink);border-radius:99px;color:var(--ink);font-weight:600;font-size:.92rem;transition:background-color .25s,color .25s,transform .35s var(--spring)}
+    .arch-body a:hover{background:var(--ink);color:var(--bg);transform:translateY(-2px)}
+    .arch-body a svg{width:15px;height:15px}
+
+    .program{margin-top:36px;border-top:2px solid var(--line)}
+    .program-item{display:grid;grid-template-columns:56px 1fr;gap:22px;align-items:start;padding:24px 0;border-bottom:2px solid var(--line)}
+    .program-no{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--c,var(--yellow));color:#121212;font:400 1rem/1 var(--f-display)}
+    .program-item:nth-child(1) .program-no{--c:var(--yellow)}
+    .program-item:nth-child(2) .program-no{--c:var(--coral)}
+    .program-item:nth-child(3) .program-no{--c:var(--purple)}
+    .program-item:nth-child(4) .program-no{--c:var(--green)}
+    .program-item:nth-child(5) .program-no{--c:var(--yellow)}
+    .program-item:nth-child(6) .program-no{--c:var(--coral)}
+    .program-item h3{font-size:1.28rem}
+    .program-item p{margin-top:8px;color:var(--ink-2);font-size:.98rem}
+
+    .routes{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px}
+    .route{padding:clamp(24px,3vw,32px);border-radius:28px;background:var(--paper);box-shadow:var(--shadow)}
+    .route h3{font-size:1.3rem}
+    .route h3 span{color:var(--coral)}
+    .route p{margin-top:12px;color:var(--ink-2);font-size:1rem;line-height:1.6}
+    .client-note{position:relative;overflow:hidden;margin-top:16px;padding:clamp(24px,3vw,32px) clamp(24px,3vw,32px) clamp(24px,3vw,32px) calc(clamp(24px,3vw,32px) + 14px);border-radius:28px;background:var(--paper);box-shadow:var(--shadow)}
+    .client-note::before{position:absolute;top:0;bottom:0;left:0;width:8px;background:var(--purple);content:""}
+    .client-note h3{font-size:1.28rem}
+    .client-note p{margin-top:10px;color:var(--ink-2);line-height:1.65}
+
+    .reviews{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:36px}
+    .review{display:grid;gap:18px;align-content:start;padding:clamp(24px,3vw,32px);border-radius:28px;background:var(--paper);box-shadow:var(--shadow)}
+    .review p{color:var(--ink-2);font-size:1rem;line-height:1.7}
+    .review footer{display:inline-flex;align-items:center;gap:11px;font-weight:700;font-size:.98rem}
+    .review footer::before{width:26px;height:26px;border-radius:50%;background:var(--c,var(--yellow));content:""}
+    .review:nth-child(1) footer{--c:var(--yellow)}
+    .review:nth-child(2) footer{--c:var(--coral)}
+    .review:nth-child(3) footer{--c:var(--purple)}
+    .review:nth-child(4) footer{--c:var(--green)}
+
+    .pricing-note{max-width:42ch;color:var(--ink-3);font-size:.9rem;line-height:1.6;text-align:right}
+    .pricing{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:36px}
+    .price{display:flex;flex-direction:column;padding:clamp(24px,3vw,36px);border-radius:28px;background:var(--paper);box-shadow:var(--shadow)}
+    .price.featured{box-shadow:0 0 0 3px var(--ink),var(--shadow)}
+    .price h3{font-size:1.5rem}
+    .price .label{margin-top:22px;color:var(--ink-3);font:700 12px/1.4 var(--f-body);letter-spacing:.12em;text-transform:uppercase}
+    .price .amount{margin-top:6px;font-family:var(--f-display);font-weight:400;font-size:clamp(2.4rem,4vw,3.2rem);letter-spacing:-.02em;line-height:1}
+    .price .amount span{font-size:.5em}
+    .price .standard{margin-top:10px;color:var(--ink-3);font-size:.92rem}
+    .price .standard b{color:var(--ink);font-weight:700}
+    .price .cond{display:inline-flex;align-self:flex-start;margin-top:12px;padding:6px 14px;border-radius:99px;background:var(--yellow);color:#121212;font-weight:700;font-size:.82rem}
+    .features{display:grid;gap:12px;margin:24px 0;padding:22px 0 0;border-top:1px solid var(--line);list-style:none;color:var(--ink-2);font-size:.95rem}
+    .features li{display:grid;grid-template-columns:22px 1fr;gap:10px;line-height:1.45}
+    .features li::before{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--green);color:#121212;font-size:13px;font-weight:700;content:"✓"}
+    .features li.off{color:var(--ink-3)}
+    .features li.off::before{background:var(--coral);content:"×"}
+    .price .btn{margin-top:auto;width:100%}
+
+    .faq{margin-top:36px;border-top:2px solid var(--line)}
+    .faq-item{border-bottom:2px solid var(--line)}
+    .faq-item summary{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 0;font-weight:700;font-size:1.12rem;list-style:none;cursor:pointer}
+    .faq-item summary::-webkit-details-marker{display:none}
+    .faq-item summary::after{display:grid;place-items:center;width:32px;height:32px;flex:none;border-radius:50%;background:var(--ink);color:var(--bg);font-size:22px;font-weight:400;line-height:1;content:"+";transition:transform .4s var(--spring)}
+    .faq-item[open] summary::after{content:"−";transform:rotate(180deg)}
+    .faq-body{max-width:66ch;padding-bottom:24px;color:var(--ink-2);font-size:1rem;line-height:1.7}
+    .faq-body p+p,.faq-body ul:not(.faq-links){margin-top:12px}
+    .faq-body ul:not(.faq-links){margin:12px 0 0;padding-left:20px;list-style:disc}
+    .faq-body ul:not(.faq-links) li+li{margin-top:6px}
+    .faq-body a{color:var(--ink);text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--ink) 35%,transparent);text-underline-offset:3px}
+    .faq-body a:hover{text-decoration-color:currentColor}
+    .faq-links{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;padding:0;list-style:none}
+    .faq-links li{display:flex;min-width:0}
+    .faq-links a{display:inline-flex;flex:1;height:56px;align-items:center;justify-content:center;text-align:center;padding:0 16px;border:2px solid var(--ink);border-radius:99px;text-decoration:none;color:var(--ink);font-weight:600;font-size:.9rem;line-height:1.3;transition:background-color .25s,color .25s}
+    .faq-links a:hover{background:var(--ink);color:var(--bg)}
+
+    .closing{padding-block:clamp(64px,9vw,128px);border-top:2px solid var(--line);background:#121212;color:#f3f2ee;text-align:center}
+    .closing .eyebrow{justify-content:center;color:#9d9b94}
+    .closing h2{max-width:16ch;margin-inline:auto;font-size:clamp(2rem,5vw,4rem);line-height:1.05}
+    .closing p{max-width:52ch;margin:20px auto 0;color:#cfcdc6;font-size:1.05rem}
+    .closing .btn{margin-top:28px}
+
+    .site-footer{padding-block:28px;border-top:1px solid var(--paper-line);background:#121212;color:var(--ink-3);font-size:.88rem}
+    .footer-row{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:16px 40px}
+    .footer-brand{color:var(--ink);font-weight:700}
+    .footer-links{display:flex;flex-wrap:wrap;gap:8px 20px}
+    .footer-links a{text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--ink) 30%,transparent);text-underline-offset:3px}
+    .footer-links a:hover{color:var(--ink)}
+    .footer-legal{margin-top:16px;max-width:80ch}
+
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+    .reveal.visible{opacity:1;transform:none}
+
+    @media(max-width:960px){
+      .project-grid,.reviews,.pricing,.routes{grid-template-columns:1fr;gap:18px}
+      .pricing-note{text-align:left}
+    }
+    @media(max-width:760px){
+      .wrap{width:calc(100% - 40px)}
+      html{scroll-padding-top:70px}
+      .nav{min-height:62px}
+      .brand{font-size:.92rem}
+      .menu-toggle{display:flex}
+      .nav-links{position:absolute;top:62px;left:0;right:0;flex-direction:column;align-items:stretch;gap:4px;padding:12px 20px 20px;border-bottom:1px solid var(--line);background:var(--paper);display:none}
+      .nav-links.open{display:flex}
+      .nav-links>a{padding:14px 12px;border-radius:14px;font-size:1rem}
+      .nav-links .btn{margin-top:8px;min-height:52px}
+      .hero{padding-block:36px 56px}
+      #hero-title{font-size:clamp(2.3rem,11vw,3.6rem)}
+      .hero-actions .btn{width:100%}
+      .section{padding-block:60px}
+      .section-title{font-size:clamp(1.8rem,7.5vw,2.6rem)}
+      .usecases{grid-template-columns:1fr}
+      .program-item{grid-template-columns:48px 1fr;gap:16px}
+      .program-no{width:46px;height:46px}
+      .price .amount{font-size:clamp(2.1rem,10vw,2.8rem)}
+      .faq-links{grid-template-columns:1fr}
+      .footer-row{flex-direction:column}
+    }
+    @media(max-width:430px){
+      .wrap{width:calc(100% - 32px)}
+    }
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+      .reveal{opacity:1;transform:none}
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Перейти к содержанию</a>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="#top"><img class="brand-icon" src="volodya.ico" alt="" width="24" height="24">Володя / AI автоматизации</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Открыть меню">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+      <nav class="nav-links" id="nav-links" aria-label="Основная навигация">
+        <a href="#project">Проект</a>
+        <a href="#program">Программа</a>
+        <a href="#audience">Для кого</a>
+        <a href="#reviews">Отзывы</a>
+        <a href="#faq">Вопросы</a>
+        <a class="btn" href="#pricing">Тарифы <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M6 4h6v6"/></svg></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Практичный курс · AI автоматизация</div>
+          <h1 id="hero-title">Научись собирать <em>ИИ-автоматизации</em> для бизнеса</h1>
+          <p class="hero-lead">Разберёшься, как создавать системы, которые <strong>не разваливаются в продакшене</strong>, и как находить клиентов и продавать им внедрение автоматизации <strong>за 50–100 тысяч рублей</strong>.</p>
+          <div class="hero-actions">
+            <a class="btn" href="#pricing">Выбрать тариф <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M6 4h6v6"/></svg></a>
+            <a class="btn btn-quiet" href="#program">Смотреть программу</a>
+          </div>
+          <p class="hero-note">Это не обещание заработка. Приведённые суммы — примеры стоимости проектов, а не гарантированный доход: результат зависит от ваших действий, ниши и спроса.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="project" aria-labelledby="project-title">
+      <div class="wrap project-grid reveal">
+        <div>
+          <div class="eyebrow">Основной проект курса</div>
+          <h2 class="section-title" id="project-title">LLM чат-бот<span class="accent">под задачи бизнеса</span></h2>
+          <p class="project-repo">Проект соберёшь с помощью специального учебного skill. Репозиторий останется у тебя — сможешь развивать бота и адаптировать его под новые задачи.</p>
+        </div>
+        <div>
+          <p class="usecases-title">Где используется LLM чат-бот</p>
+          <div class="usecases">
+            <div class="usecase">Поддержка и консультации клиентов</div>
+            <div class="usecase">Продажи и квалификация лидов</div>
+            <div class="usecase">Поиск по знаниям компании (RAG)</div>
+            <div class="usecase">Онбординг и обучение сотрудников</div>
+          </div>
+          <div class="offer">
+            <span>Такое внедрение можно продать бизнесу за</span>
+            <strong>50–100 тыс. ₽</strong>
+            <small>Указана ориентировочная стоимость внедрения. Доход участника не гарантируется.</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="approach" aria-labelledby="approach-title">
+      <div class="wrap">
+        <div class="reveal">
+          <div class="eyebrow">Не только LLM-чат-бот</div>
+          <h2 class="section-title" id="approach-title">На одной архитектуре — много автоматизаций</h2>
+          <p class="auto-intro">На курсе подробно разберём архитектуру LLM-чат-бота: компоненты, связи и логику работы. На этой основе ты сможешь создавать другие автоматизации для маркетинга и продаж, <strong>например:</strong></p>
+        </div>
+        <div class="auto-grid reveal">
+          <article class="auto-item">Квалификация лидов</article>
+          <article class="auto-item">Составление коммерческих предложений</article>
+          <article class="auto-item">Составление договоров</article>
+          <article class="auto-item">Креативы и тексты для рекламы</article>
+          <article class="auto-item">Итоги звонков и обновление CRM</article>
+          <article class="auto-item">Персональные письма клиентам</article>
+        </div>
+        <p class="auto-more">И многое другое</p>
+        <details class="arch">
+          <summary>Посмотреть архитектуру LLM-чат-бота</summary>
+          <div class="arch-body">
+            <a href="https://vladimir-kkkkk.com/project-architecture.html" target="_blank" rel="noopener noreferrer">Открыть схему отдельно <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M6 4h6v6"/></svg></a>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="section" id="program" aria-labelledby="program-title">
+      <div class="wrap">
+        <div class="reveal">
+          <div class="eyebrow">Программа курса</div>
+          <h2 class="section-title" id="program-title">Что будем делать на курсе</h2>
+        </div>
+        <div class="program reveal">
+          <div class="program-item"><span class="program-no">01</span><div><h3>Разберёмся в основах</h3><p>ИИ-автоматизации, инструменты и юридические вопросы.</p></div></div>
+          <div class="program-item"><span class="program-no">02</span><div><h3>Соберём прототип и админку</h3><p>Составим ТЗ и разберём IT-базу проекта.</p></div></div>
+          <div class="program-item"><span class="program-no">03</span><div><h3>Настроим и проверим LLM</h3><p>Архитектуры автоматизаций, промпты, эвалюейшены, безопасность LLM и RAG.</p></div></div>
+          <div class="program-item"><span class="program-no">04</span><div><h3>Подготовим бота к запуску</h3><p>Полная архитектура, отказоустойчивость и запуск на сервере.</p></div></div>
+          <div class="program-item"><span class="program-no">05</span><div><h3>Адаптируем и передадим проект</h3><p>Реальный кейс, поддержка и другие автоматизации.</p></div></div>
+          <div class="program-item"><span class="program-no">06</span><div><h3>Разберём работу с клиентами</h3><p>Поиск заказчиков, созвон, расчёт цены, КП и договор.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="audience" aria-labelledby="audience-title">
+      <div class="wrap reveal">
+        <div class="eyebrow">Для кого курс</div>
+        <h2 class="section-title" id="audience-title">Кому подойдёт</h2>
+        <div class="routes">
+          <article class="route"><h3>Создавать автоматизации <span>на заказ</span></h3><p>Для специалистов в найме, фрилансеров и тех, кто хочет освоить новую профессию: создавать проекты для бизнеса и продавать внедрение и поддержку.</p></article>
+          <article class="route"><h3>Внедрять автоматизации в <span>свой бизнес</span></h3><p>Для предпринимателей, которые хотят самостоятельно создавать ИИ-решения под задачи своей компании.</p></article>
+        </div>
+        <div class="client-note">
+          <h3>Как находить клиентов и работать с ними</h3>
+          <p>В конце курса будет отдельный блок: где искать заказчиков, как проводить созвоны, готовить коммерческие предложения, рассчитывать стоимость проекта и на что обращать внимание в договоре.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="reviews" aria-labelledby="reviews-title">
+      <div class="wrap">
+        <div class="reveal">
+          <div class="eyebrow">Отзывы</div>
+          <h2 class="section-title" id="reviews-title">Отзывы на предыдущий поток</h2>
+        </div>
+        <div class="reviews reveal">
+          <article class="review">
+            <p>В общем я коротко тогда: меня привлекло, что ты честный парень, реально желающий помочь. Этот курс твой первый — проба пера, и я считаю, что ты подошёл к нему со всей ответственностью. Лекции давались мне достаточно легко, и как новичку в этом деле многое для меня было открытием. Неоднократно улыбнула твоя подача материала, за что тоже респект.</p>
+            <footer>Владислав</footer>
+          </article>
+          <article class="review">
+            <p>Минусов я для себя не нашёл, помимо того, что искать лидов в самом начале пока затруднительно: если ты не уверен в своих навыках и в том, что собираешься продавать, то и не захочешь начинать искать. Мне кажется, после материала про прототип уже можно активно начинать искать клиентов — потому что уже есть база, с которой стоит идти и продавать.</p>
+            <footer>Александр</footer>
+          </article>
+          <article class="review">
+            <p>Курс понравился, но скажу честно: местами плотно по информации, и если не выделить время заранее, легко выпасть из ритма. Зато когда садишься и делаешь — всё встаёт на места. Собрали бота, разобрали архитектуру и посмотрели, как это живёт в продакшене. Отдельный респект за блок про работу с клиентами: стало понятно, как считать проект и что говорить заказчику.</p>
+            <footer>Никита</footer>
+          </article>
+          <article class="review">
+            <p>Шёл почти с нуля и боялся, что не потяну. По факту всё разложили по шагам — от ТЗ и прототипа до запуска на сервере. Больше всего помогли живые разборы: можно было спросить и сразу поправить свои косяки. К концу курса на руках рабочий проект и понимание, куда двигаться дальше. Минус только один — хочется ещё.</p>
+            <footer>Арсений</footer>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing" aria-labelledby="pricing-title">
+      <div class="wrap">
+        <div class="reveal" style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px">
+          <div>
+            <div class="eyebrow">Тарифы</div>
+            <h2 class="section-title" id="pricing-title">Выбери формат участия</h2>
+          </div>
+          <p class="pricing-note">Продажи предыдущего потока закрыты 29 сентября, старт был 5 октября. Даты и условия следующего потока уточняй в Telegram.</p>
+        </div>
+        <div class="pricing reveal">
+          <article class="price">
+            <h3>Самостоятельный</h3>
+            <p class="label">Стоимость для листа ожидания</p>
+            <div class="amount">51 000&nbsp;<span>₽</span></div>
+            <p class="standard">Без скидки <b>60 000 ₽</b></p>
+            <span class="cond">−15% для листа ожидания</span>
+            <ul class="features">
+              <li>Уроки курса — доступ навсегда</li>
+              <li>Репозиторий LLM чат-бота — доступ навсегда</li>
+              <li>Шаблоны КП и договоров, наработки и другие материалы — доступ навсегда</li>
+              <li class="off">Платформа с прогрессом обучения</li>
+              <li class="off">Чат участников — доступ навсегда</li>
+              <li class="off">Личные разборы домашних заданий и проектов</li>
+              <li class="off">Консультации в чате и личных сообщениях</li>
+              <li class="off">6 еженедельных групповых созвонов с записями</li>
+              <li class="off">Поддержка автора в течение курса и месяц после</li>
+            </ul>
+            <a class="btn btn-quiet" href="https://t.me/vladimir_kkkkkkk" target="_blank" rel="noopener noreferrer">Узнать о наборе <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M6 4h6v6"/></svg></a>
+          </article>
+          <article class="price featured">
+            <h3>С автором</h3>
+            <p class="label">Стоимость для листа ожидания · 30 мест</p>
+            <div class="amount">110 500&nbsp;<span>₽</span></div>
+            <p class="standard">Без скидки <b>130 000 ₽</b></p>
+            <span class="cond">−15% для листа ожидания</span>
+            <ul class="features">
+              <li>Уроки курса — доступ навсегда</li>
+              <li>Репозиторий LLM чат-бота — доступ навсегда</li>
+              <li>Шаблоны КП и договоров, наработки и другие материалы — доступ навсегда</li>
+              <li>Платформа с прогрессом обучения</li>
+              <li>Чат участников — доступ навсегда</li>
+              <li>Личные разборы домашних заданий и проектов</li>
+              <li>Консультации в чате и личных сообщениях</li>
+              <li>6 еженедельных групповых созвонов с записями</li>
+              <li>Поддержка автора в течение курса и месяц после</li>
+            </ul>
+            <a class="btn" href="https://t.me/vladimir_kkkkkkk" target="_blank" rel="noopener noreferrer">Узнать о наборе <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M6 4h6v6"/></svg></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq" aria-labelledby="faq-title">
+      <div class="wrap reveal">
+        <div class="eyebrow">Вопросы</div>
+        <h2 class="section-title" id="faq-title">Частые вопросы</h2>
+        <div class="faq">
+          <details class="faq-item" open>
+            <summary>Какая подготовка нужна и нужно ли уметь программировать?</summary>
+            <div class="faq-body"><p>Курс не с полного нуля: нужны базовые навыки работы в сервисах для вайб-кодинга — Claude Code, Codex, Pi Coding Agent, DeepSeek Harness или любой другой. Для подготовки посмотри два видео:</p>
+              <ul class="faq-links">
+                <li><a href="https://youtu.be/kFpX1FftH70?si=X5DDxmucKZqHLxUJ" target="_blank" rel="noopener noreferrer">Полный гайд по Claude Code ↗</a></li>
+                <li><a href="https://youtu.be/tUufFo-JTZQ?si=V-g2Hh37rLHc5qIW&amp;t=14981" target="_blank" rel="noopener noreferrer">Раздел про LLM в гайде по n8n ↗</a></li>
+              </ul>
+            </div>
+          </details>
+          <details class="faq-item"><summary>Сколько времени нужно на курс?</summary><div class="faq-body"><p>Ориентир — 2–3 часа в день на уроки и домашние задания. Курс можно совмещать с работой, если заранее выделить время на практику. Для результата важно выполнять задания.</p></div></details>
+          <details class="faq-item"><summary>Можно ли делать проект для своего бизнеса?</summary><div class="faq-body"><p>Да. Основной кейс можно адаптировать под свои процессы. Конкретные интеграции и сценарии требуют собственной настройки и проверки. Если своего проекта пока нет, можно учиться на общем учебном проекте.</p></div></details>
+          <details class="faq-item"><summary>Будет ли часть про поиск клиентов и работу с заказчиками?</summary><div class="faq-body"><p>Да. В конце курса разберём поиск клиентов, вводный созвон, выявление задачи, коммерческое предложение, расчёт проекта и договор. Но курс не гарантирует получение клиентов или доход.</p></div></details>
+          <details class="faq-item"><summary>Какие дополнительные расходы будут?</summary><div class="faq-body"><p>Помимо обучения, нужно заложить бюджет на три вещи:</p>
+            <ul><li>Подписку на приложение для вайб-кодинга.</li><li>Аренду сервера для проекта — ориентир 400–500 ₽ в месяц.</li><li>API для подключения языковых моделей — стоимость зависит от моделей и объёма запросов.</li></ul>
+          </div></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing" aria-labelledby="closing-title">
+      <div class="wrap reveal">
+        <div class="eyebrow">Следующий шаг</div>
+        <h2 id="closing-title">Стань тем, кто строит автоматизации для бизнеса</h2>
+        <p>Разберись в архитектуре, собери проект и научись продавать внедрение. Начни с программы или свяжись, чтобы узнать о наборе.</p>
+        <a class="btn" href="https://t.me/vladimir_kkkkkkk" target="_blank" rel="noopener noreferrer">Связаться в Telegram <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M6 4h6v6"/></svg></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-row">
+        <div>
+          <p class="footer-brand">© 2026 Володя | AI автоматизации</p>
+          <p>Исполнитель: ИП Карпухин Владимир Александрович · ИНН 230820250588 · ОГРНИП 326237500252734</p>
+        </div>
+        <nav class="footer-links" aria-label="Контакты и документы">
+          <a href="mailto:k@vladimir-kkkkk.com">Email: k@vladimir-kkkkk.com</a>
+          <a href="https://t.me/vladimir_kkkkkkk" target="_blank" rel="noopener noreferrer">Telegram: @vladimir_kkkkkkk</a>
+          <a href="https://vladimir-kkkkk.com/oferta" target="_blank" rel="noopener noreferrer">Договор оферты</a>
+          <a href="https://vladimir-kkkkk.com/privacy" target="_blank" rel="noopener noreferrer">Политика конфиденциальности</a>
+          <a href="https://vladimir-kkkkk.com/personal-data-consent" target="_blank" rel="noopener noreferrer">Согласие на обработку ПД</a>
+        </nav>
+      </div>
+      <p class="footer-legal">Суммы 50–100 тыс. ₽ и стоимость тарифов приведены как примеры стоимости проектов и условия предыдущего потока, а не как гарантированный доход участника.</p>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const toggle = document.querySelector('.menu-toggle');
+      const nav = document.querySelector('.nav-links');
+      const closeMenu = () => {
+        nav.classList.remove('open');
+        document.body.classList.remove('menu-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Открыть меню');
+      };
+      toggle.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') !== 'true';
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
+        nav.classList.toggle('open', open);
+        document.body.classList.toggle('menu-open', open);
+      });
+      nav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+      document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
+
+      document.querySelectorAll('.faq .faq-item').forEach(item => item.addEventListener('toggle', event => {
+        if (event.target.open) {
+          item.parentElement.querySelectorAll(':scope > details[open]').forEach(other => { if (other !== item) other.open = false; });
+        }
+      }));
+
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const revealEls = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window && !reduce) {
+        const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+          if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+        }), { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+        revealEls.forEach(el => observer.observe(el));
+      } else {
+        revealEls.forEach(el => el.classList.add('visible'));
+      }
+    })();
+  </script>
+</body>
+</html>
